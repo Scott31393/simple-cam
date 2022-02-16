@@ -48,6 +48,14 @@ static void processRequest(Request *request)
 {
 	const Request::BufferMap &buffers = request->buffers();
 
+	const ControlList &requestMetadata = request->metadata();
+
+	for (const auto &ctrl : requestMetadata) {
+		const ControlId *id = controls::controls.at(ctrl.first);
+		std::cout << "\t" << id->name() << " = " << ctrl.second.toString()
+		          << std::endl;
+	}
+
 	for (auto bufferPair : buffers) {
 		// (Unused) Stream *stream = bufferPair.first;
 		FrameBuffer *buffer = bufferPair.second;
